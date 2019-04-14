@@ -6,7 +6,7 @@
 #include "history.h"
 
 
-char commandString[1000];
+char commandString[1024];
 extern int firstSequenceNumber;
 int commandCount;
 char *argument[1024];
@@ -39,14 +39,14 @@ void executeExternalCommand(char **argv){
 
     if ( WIFEXITED(status) ) {
         const int es = WEXITSTATUS(status);
-        changeExitStatus(es);
-        printf("exit status was %d\n", es);
+        //changeExitStatus(es);
+        //printf("exit status was %d\n", es);
     }
     }
     else{
       if(execvp(*argv,argv) < 0 ){
          printf("%s\n","error");
-         exit(-1);
+         exit(0);
       }
 
     }
@@ -59,14 +59,14 @@ commandCount++;
   if(commandCount>10){
 	firstSequenceNumber++;
 }
-  char *oldstr=malloc(sizeof(str));
+  char *oldstr=malloc(1026);
   strncpy(oldstr,str,strlen(str));
 
   strncpy(commandString,"",1); //resets string
   strncat(commandString,"cd ",3);//keeps track of command for cd
   char* token = strtok(str," ");
-  int i=0;
   while (token != NULL) {
+
   if(!strcmp(token,"cd")){
     token = strtok (NULL, " "); //do something to get to the next token
     if(token == NULL){
@@ -83,10 +83,7 @@ commandCount++;
     }
 
   }else if(!strcmp(token,"exit")){ //looks for error command
-    //print_history(firstSequenceNumberCount);
-    for(int i =0;i<commandCount;i++){
-      free(oldstr);
-    }
+    free(oldstr);
     clear_history();
     exit(0);
 

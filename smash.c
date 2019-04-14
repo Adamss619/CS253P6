@@ -6,7 +6,7 @@
 
 int firstSequenceNumber;
 
-#define MAXLINE 4096
+#define MAXLINE 1026
 int main(int argc, char ** argv){
   firstSequenceNumber = 1;
   char bfr[MAXLINE];

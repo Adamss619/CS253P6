@@ -9,10 +9,10 @@ command *cmdHistory;
 static int counting;
 
 void init_history(){
- cmdHistory = malloc(sizeof(struct Cmd*)*11);
+  cmdHistory = malloc(sizeof(struct Cmd*)*11);
   for (int i=0; i<11; i++) {
-     cmdHistory[i] = malloc(sizeof(struct Cmd));
-	cmdHistory[i]->cmd = NULL;
+      cmdHistory[i] = malloc(sizeof(struct Cmd));
+	    cmdHistory[i]->cmd = NULL;
    }
 }
 
@@ -36,15 +36,15 @@ void add_history(char *cmd, int exitStatus){
   counting++;
   if(counting > 10){
     for(int i = 0;i<9;i++){
-	free(cmdHistory[i]->cmd);
-     cmdHistory[i]->cmd = strdup(cmdHistory[i+1]->cmd);
-      cmdHistory[i]->exitStatus = cmdHistory[i+1]->exitStatus;
+	     free(cmdHistory[i]->cmd);
+       cmdHistory[i]->cmd = strdup(cmdHistory[i+1]->cmd);
+       cmdHistory[i]->exitStatus = cmdHistory[i+1]->exitStatus;
     }
     printf("%s\n",cmd);
     free(cmdHistory[9]->cmd);
 
     if(cmdHistory[10]->cmd){
-	free(cmdHistory[10]->cmd);
+	     free(cmdHistory[10]->cmd);
 	}
 
     cmdHistory[9]->cmd = strdup(cmd);

@@ -27,12 +27,9 @@ void  parse(char *line, char **argv)
 }
 
 void executeExternalCommand(char **argv){
-    //pid_t parent = getpid();
     pid_t pid = fork();
-    //printf("%s","Inside executeExternalCommand");
     if(pid == -1){
 			fprintf(stderr, "Fork error\n");
-
     }else if(pid > 0){
       int status;
       waitpid(pid, &status, 0);
@@ -41,7 +38,7 @@ void executeExternalCommand(char **argv){
         const int es = WEXITSTATUS(status);
         //changeExitStatus(es);
         //printf("exit status was %d\n", es);
-    }
+      }
     }
     else{
       if(execvp(*argv,argv) < 0 ){
@@ -59,7 +56,7 @@ commandCount++;
   if(commandCount>10){
 	firstSequenceNumber++;
 }
-  char *oldstr=malloc(1026);
+  char *oldstr=malloc(1024);
   strncpy(oldstr,str,strlen(str));
 
   strncpy(commandString,"",1); //resets string
@@ -83,7 +80,7 @@ commandCount++;
     }
 
   }else if(!strcmp(token,"exit")){ //looks for error command
-    free(oldstr);
+    //free(oldstr);
     clear_history();
     exit(0);
 
@@ -101,5 +98,6 @@ commandCount++;
   }
   token = strtok (NULL, " ");
   }
+  free(*oldstr);
   fputs("$ ",stderr);
 }
